@@ -61,6 +61,14 @@
 	update_icon()
 
 /obj/screen/movable/ability_master/proc/open_ability_master()
+	for(var/i = 1; i <= ability_objects.len; i++)
+		var/obj/screen/ability/A = ability_objects[i]
+		var/x_offset = i + 1
+		var/x_trim = 16 - 6*i
+		A.screen_loc = "RIGHT-[x_offset]:[x_trim],TOP-1:16"
+		if(my_mob && my_mob.client)
+			my_mob.client.screen += A
+//			A.handle_icon_updates = 1
 
 /obj/screen/movable/ability_master/proc/update_abilities(forced = 0, mob/user)
 	update_icon()
