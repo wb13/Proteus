@@ -29,6 +29,7 @@
 	if(!user.put_in_active_hand(current_hand))
 		QDEL_NULL(current_hand)
 		return FALSE
+	current_hand.hand_spell = src
 	return TRUE
 
 /spell/hand/proc/cancel_hand()
