@@ -18,7 +18,6 @@
 	B.firer = user
 	B.launch(A, BP_CHEST)
 	user.visible_message("<span class='danger'>\The [user] shoots out a deep red shard from their hand!</span>")
-	return ..()
 
 /obj/item/projectile/blood_shard
 	name = "bloodshard"

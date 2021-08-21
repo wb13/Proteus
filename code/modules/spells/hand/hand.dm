@@ -1,12 +1,12 @@
 /spell/hand
 	var/min_range = 0
 	var/list/compatible_targets = list(/atom)
-	var/spell_delay = 5
 	var/move_delay
 	var/click_delay
 	var/hand_state = "spell"
 	var/obj/item/magic_hand/current_hand
 	var/show_message
+	charge_max = 10
 
 /spell/hand/choose_targets(mob/user = usr)
 	return list(user)
@@ -14,6 +14,10 @@
 /spell/hand/cast_check(skipcharge = 0,mob/user = usr, var/list/targets)
 	if(!..())
 		return FALSE
+	if(current_hand)
+		if(current_hand.hand_spell == src)
+			return TRUE
+		cancel_hand()
 	if(user.get_active_hand())
 		to_chat(holder, "<span class='warning'>You need an empty hand to cast this spell.</span>")
 		return FALSE
@@ -21,6 +25,8 @@
 
 /spell/hand/cast(list/targets, mob/user)
 	if(current_hand)
+		if(current_hand.hand_spell == src)
+			return TRUE
 		cancel_hand()
 	if(user.get_active_hand())
 		to_chat(user, "<span class='warning'>You need an empty hand to cast this spell.</span>")
@@ -49,7 +55,6 @@
 	return TRUE
 
 /spell/hand/proc/cast_hand(var/atom/a,var/mob/user) //same for casting.
-	return TRUE
 
 /spell/hand/charges
 	var/casts = 1

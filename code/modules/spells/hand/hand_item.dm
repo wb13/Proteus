@@ -10,7 +10,6 @@ Basically: I can use it to target things where I click. I can then pass these ta
 	obj_flags = 0
 	simulated = 0
 	icon_state = "spell"
-	var/next_spell_time = 0
 	var/spell/hand/hand_spell
 
 /obj/item/magic_hand/Initialize()
@@ -33,25 +32,21 @@ Basically: I can use it to target things where I click. I can then pass these ta
 
 	if(!hand_spell.valid_target(A,user))
 		return
-	if(world.time < next_spell_time)
-		to_chat(user, "<span class='warning'>The spell isn't ready yet!</span>")
-		return
 	if(user.a_intent == I_HELP)
 		to_chat(user, "<span class='notice'>You decide against casting this spell as your intent is set to help.</span>")
+		return
+	if(!hand_spell.perform(usr))
 		return
 
 	if(hand_spell.show_message)
 		user.visible_message("\The [user][hand_spell.show_message]")
-	if(hand_spell.cast_hand(A,user))
-		next_spell_time = world.time + hand_spell.spell_delay
-		if(hand_spell.move_delay)
-			user.ExtraMoveCooldown(hand_spell.move_delay)
-		if(hand_spell.click_delay)
-			user.setClickCooldown(hand_spell.move_delay)
+	if(hand_spell.move_delay)
+		user.ExtraMoveCooldown(hand_spell.move_delay)
+	if(hand_spell.click_delay)
+		user.setClickCooldown(hand_spell.move_delay)
+	hand_spell.cast_hand(A, user)
 
 /obj/item/magic_hand/afterattack(var/atom/A, var/mob/user, var/proximity)
-	if(hand_spell)
-		fire_spell(A,user)
 
 /obj/item/magic_hand/throw_at() //no throwing pls
 	usr.drop_from_inventory(src)

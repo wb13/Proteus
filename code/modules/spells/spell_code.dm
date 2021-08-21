@@ -105,14 +105,14 @@ var/global/list/spells = typesof(/spell) //needed for the badmin verb for now
 	if(!holder)
 		holder = user //just in case
 	if(!cast_check(skipcharge, user))
-		return
+		return FALSE
 	to_chat(user, SPAN_NOTICE("You start casting \the [name]..."))
 	if(cast_delay && !spell_do_after(user, cast_delay))
-		return
+		return FALSE
 	var/list/targets = choose_targets(user)
 	if(!check_valid_targets(targets))
 		to_chat(user, SPAN_WARNING("\The [name] fizzles. There are no valid targets nearby."))
-		return
+		return FALSE
 	var/time = 0
 	admin_attacker_log(user, "attempted to cast the spell [name]")
 	do
@@ -134,7 +134,7 @@ var/global/list/spells = typesof(/spell) //needed for the badmin verb for now
 			break
 	while(time != number_of_channels && do_after(user, time_between_channels, incapacitation_flags = INCAPACITATION_KNOCKOUT|INCAPACITATION_FORCELYING|INCAPACITATION_STUNNED, same_direction=1))
 	after_spell(targets, user, time) //When we are done with the spell completely.
-
+	return TRUE
 
 
 /spell/proc/cast(list/targets, mob/user, var/channel_duration) //the actual meat of the spell

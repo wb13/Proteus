@@ -378,7 +378,10 @@
 	return
 
 /obj/screen/ability/spell/activate()
-	spell.perform(usr)
+	if(istype(spell, /spell/hand))
+		spell.cast(null,usr)
+	else
+		spell.perform(usr)
 
 /obj/screen/movable/ability_master/proc/silence_spells(var/amount)
 	for(var/obj/screen/ability/spell/spell in spell_objects)

@@ -40,7 +40,6 @@
 	P.buckle_mob(M)
 	M.set_dir(pick(global.cardinal))
 	M.visible_message("<span class='danger'>[P] appear from the floor, spinning around \the [M] tightly!</span>")
-	return ..()
 
 /spell/hand/charges/entangle/empower_spell()
 	if(!..())

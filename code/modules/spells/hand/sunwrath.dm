@@ -8,7 +8,7 @@
 	show_message = " erupts fire from their hands"
 	school = "Divine"
 	hand_duration = 100
-	spell_delay = 30
+	charge_max = 30
 	range = 4
 
 	hud_state = "wiz_immolate"
@@ -21,7 +21,6 @@
 		if(turf.density || isspaceturf(turf))
 			break
 		new /obj/effect/fake_fire/sunwrath(t)
-	return 1
 
 /obj/effect/fake_fire/sunwrath
 	firelevel = 2
